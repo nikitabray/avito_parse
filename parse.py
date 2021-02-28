@@ -1,5 +1,6 @@
-import requests
 from bs4 import BeautifulSoup
+import requests
+import json
 
 class GetUrl():
     def __init__(self, *args, **kwargs):
@@ -33,11 +34,15 @@ class ToTheParse():
             result[product_title] = product_price
         for title, price in result.items():
             print(title, price)
-        return 
+        return result
 
 
-url_class = GetUrl()
-doc = GetDocument(url=url_class.get_url()).get_document()
-avito = ToTheParse(document=doc)
-avito.get_product_title_and_price()
+if __name__ == "__main__":
+    url_class = GetUrl()
+    doc = GetDocument(url=url_class.get_url()).get_document()
+    avito = ToTheParse(document=doc)
+    a = avito.get_product_title_and_price()
+    filename = input('Введите название для файла (без расширения), куда программа сохранит данные: ')
+    with open(filename+'.json', 'w') as outfile:
+        json.dump(a, outfile)
 
